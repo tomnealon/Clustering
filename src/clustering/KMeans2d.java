@@ -19,7 +19,7 @@ public class KMeans2d {
     }
     
     public DataReader generateClusters() {
-        DataReader resultData = dataReader;
+        DataReader resultData = new DataReader();
         initialiseCentroids();
         
         double minDist = 100000000000.0;
