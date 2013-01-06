@@ -72,9 +72,8 @@ public class KMeans2d {
             }
         }
         
-        while(!finished) {
-            // calculate new centroids.
-            
+        // Keep calculating new centroids until they stop changing.
+        while(!finished) {            
             for(int j = 0; j < clusterNo; j++) {
                 double totalX = 0;
                 double totalY = 0;

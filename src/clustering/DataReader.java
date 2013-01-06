@@ -15,6 +15,10 @@ public class DataReader {
     private int noCols;
     private ArrayList<ArrayList> store = new ArrayList<>();
     private ToStringHelper help = new ToStringHelper();
+    
+    public DataReader() {
+        
+    }
 
     public DataReader(String fileName) throws IOException {
         System.out.println("Reader created using: " + fileName);
@@ -28,6 +32,10 @@ public class DataReader {
             dataRow = CSVFile.readLine();
         }
         CSVFile.close();
+        initialise();
+    }
+    
+    private void initialise() {
         this.noRows = store.size();
         this.noCols = store.get(0).size();
     }
@@ -54,6 +62,7 @@ public class DataReader {
     
     public void addRow(ArrayList<String> newRow) {
         store.add(newRow);
+        initialise();
     }
     
     public void printAll() {
