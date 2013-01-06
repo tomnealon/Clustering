@@ -16,8 +16,10 @@ public class KMeans2d {
         this.clusterNo = clusterNo;
     }
     
-    public DataReader assignClusters() {
+    public DataReader generateClusters() {
         DataReader resultData = dataReader;
+        initialiseCentroids();
+        
         return resultData;
     }
     
@@ -26,9 +28,20 @@ public class KMeans2d {
         for(int i = 0; i < clusterNo; i++) {
             int randInt = (int)(Math.random()*dataReader.getNoRows());
             ArrayList<Double> newRow = dataReader.geRowAsDoubles(randInt);
-            Centroid newCentroid = new Centroid(newRow.get(0), newRow.get(1));
+            centroids.add(new Centroid(newRow.get(0), newRow.get(1)));
+            
+            System.out.println("Added new centroid with ("+newRow.get(0)+", "+newRow.get(1)+")");
         }
          
     }
+    
+    private static double calcDist(ArrayList<Double> row, Centroid centroid)
+    {
+        return Math.sqrt(Math.pow((centroid.getY() - row.get(1)), 2) + Math.pow((centroid.getX() - row.get(0)), 2));
+    }
+    
+    private void labelRow(int label) {
+        
+    };
     
 }
