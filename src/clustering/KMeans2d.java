@@ -1,6 +1,7 @@
 package clustering;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -26,6 +27,7 @@ public class KMeans2d {
         ArrayList<Double> outputRow = new ArrayList<Double>();
         double currentDistance;
         Double clusterName = 99.9;
+        boolean finished = false;
         
         
         for(int i = 0; i < dataReader.getNoRows(); i++){
@@ -69,7 +71,61 @@ public class KMeans2d {
                 }
             }
         }
+        
+        while(!finished) {
+            // calculate new centroids.
+            
+            for(int j = 0; j < clusterNo; j++) {
+                double totalX = 0;
+                double totalY = 0;
+                int clusterPop = 0;
+                for(int k = 0; k < resultTable.size(); k++) {
+                    if(resultTable.get(k).get(2) == j){
+                        // If it is then increment the clusterPopulation and
+                        // add the two dimensions to the running total.
+                        totalX = totalX + (Double) resultTable.get(k).get(0);
+                        totalY = totalY + (Double) resultTable.get(k).get(1);
+                        clusterPop++;
+                    }
+                }
+                if(clusterPop > 0){
+                    centroids.get(j).setX(totalX / clusterPop);
+                    centroids.get(j).setY(totalY / clusterPop);
+                }
+            }
+            finished = true;
+            for(int i = 0; i < resultTable.size(); i++)
+            {
+                ArrayList<Double> tempRow = resultTable.get(i);
+                minDist = 10000;
+                for(int j = 0; j < clusterNo; j++)
+                {
+                    currentDistance = calcDist(tempRow, centroids.get(j));
+                    if(currentDistance < minDist){
+                        minDist = currentDistance;
+                        clusterName = Double.valueOf(j);
+                    }
+                }
+                tempRow.set(2, clusterName);
+                if(tempRow.get(2) != clusterName){
+                    tempRow.set(2, clusterName);
+                    finished = false;
+                }
+            }
+        }
+        
+        Iterator resultIt = resultTable.iterator();
+        ArrayList<Double> tempRow;
+        ArrayList<String> outRow = new ArrayList<>();
+        while(resultIt.hasNext()) {
+            tempRow = (ArrayList<Double>) resultIt.next();
+            outRow.add(String.valueOf(tempRow.get(0)));
+            outRow.add(String.valueOf(tempRow.get(1)));
+            outRow.add(String.valueOf(tempRow.get(2)));
+        }
+        resultData.printAll();
         return resultData;
+        
     }
     
     private void initialiseCentroids() {
