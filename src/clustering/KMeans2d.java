@@ -10,6 +10,7 @@ public class KMeans2d {
     private DataReader dataReader;
     private int clusterNo;
     private static ArrayList<Centroid> centroids = new ArrayList<>();
+    private ArrayList<ArrayList> resultTable = new ArrayList<>();
     
     public KMeans2d(DataReader dataReader, int clusterNo) {
         this.dataReader = dataReader;
@@ -20,6 +21,54 @@ public class KMeans2d {
         DataReader resultData = dataReader;
         initialiseCentroids();
         
+        double minDist = 100000000000.0;
+        ArrayList<Double> currentRow;
+        ArrayList<Double> outputRow = new ArrayList<Double>();
+        double currentDistance;
+        Double clusterName = 99.9;
+        
+        
+        for(int i = 0; i < dataReader.getNoRows(); i++){
+            currentRow = dataReader.geRowAsDoubles(i);
+            // Calculate centroid with minimum distance.
+            for(int j = 0; j < clusterNo; j++) {
+                currentDistance = calcDist(currentRow, centroids.get(j));
+                if(currentDistance < minDist){
+                    minDist = currentDistance;
+                    clusterName = Double.valueOf(j);
+                }
+            }
+            // Create ouput row.
+            for(Double value : currentRow) {
+                outputRow.add(value);
+            }
+            // Add it to the result table with the new classification.
+            outputRow.add(clusterName);
+            resultTable.add(outputRow);
+            // Calculate new centroids.
+            for(int j = 0; j < clusterNo; j++) {
+                double totalX = 0;
+                double totalY = 0;
+                int clusterPop = 0;
+                for(int k = 0; k < resultTable.size(); k++) {
+                    // Check if result row cluster is in the current cluster
+                    // being checked.
+                    if(resultTable.get(k).get(2) == j){
+                        // If it is then increment the clusterPopulation and
+                        // add the two dimensions to the running total.
+                        totalX = totalX + (Double) resultTable.get(k).get(0);
+                        totalY = totalY + (Double) resultTable.get(k).get(1);
+                        clusterPop++;
+                    }
+                }
+                // Re-calculate the centroid for each class based on its running
+                // population.
+                if(clusterPop > 0){
+                    centroids.get(j).setX(totalX / clusterPop);
+                    centroids.get(j).setY(totalY / clusterPop);
+                }
+            }
+        }
         return resultData;
     }
     

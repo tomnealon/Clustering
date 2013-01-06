@@ -14,7 +14,7 @@ public class DataReader {
     private int noRows;
     private int noCols;
     private ArrayList<ArrayList> store = new ArrayList<>();
-    //private ToStringHelper help = new ToStringHelper();
+    private ToStringHelper help = new ToStringHelper();
 
     public DataReader(String fileName) throws IOException {
         System.out.println("Reader created using: " + fileName);
@@ -50,5 +50,15 @@ public class DataReader {
             doubleRow.add(Double.parseDouble(eachString));
         }
         return doubleRow;
+    }
+    
+    public void addRow(ArrayList<String> newRow) {
+        store.add(newRow);
+    }
+    
+    public void printAll() {
+        for(ArrayList<String> row : store) {
+            System.out.println(help.toString(row));
+        }
     }
 }
