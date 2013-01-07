@@ -59,18 +59,22 @@ public class KMeans2d {
             System.out.println("Output row no. "+i+" added to result table "+help.toString(outputRow));
             // Calculate new centroids.
             for(int j = 0; j < clusterNo; j++) {
+                System.out.println("Recalculating for Centroid "+j);
                 double totalX = 0;
                 double totalY = 0;
                 int clusterPop = 0;
                 for(int k = 0; k < resultTable.size(); k++) {
+                    
                     // Check if result row cluster is in the current cluster
                     // being checked.
-                    if(resultTable.get(k).get(2) == j){
+                    int intValue = ((Double) resultTable.get(k).get(2)).intValue();
+                    if(intValue == j){
                         // If it is then increment the clusterPopulation and
                         // add the two dimensions to the running total.
                         totalX = totalX + (Double) resultTable.get(k).get(0);
                         totalY = totalY + (Double) resultTable.get(k).get(1);
                         clusterPop++;
+                        System.out.println("Result table entry "+k+" is in centroid "+intValue+" Pop now "+clusterPop);
                     }
                 }
                 // Re-calculate the centroid for each class based on its running
@@ -78,6 +82,7 @@ public class KMeans2d {
                 if(clusterPop > 0){
                     centroids.get(j).setX(totalX / clusterPop);
                     centroids.get(j).setY(totalY / clusterPop);
+                    System.out.println("Centroid "+j+" moved to ("+(totalX / clusterPop)+", "+(totalY / clusterPop)+")");
                 }
             }
         }
