@@ -1,7 +1,10 @@
 package clustering;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,7 +30,7 @@ public class KMeans2d {
         }
     }
     
-    public DataReader generateClusters() {
+    public DataReader generateClusters(String outputFile) {
         DataReader resultData = new DataReader();
         initialiseCentroids();
         
@@ -154,7 +157,15 @@ public class KMeans2d {
             outRow.add(String.valueOf(tempRow.get(2)));
         }
         resultData.printAll();
+        try {
+            resultData.writeFile(outputFile);
+        } catch (IOException ex) {
+            Logger.getLogger(KMeans2d.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return resultData;
+        
+        
         
     }
     

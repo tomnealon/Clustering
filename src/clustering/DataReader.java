@@ -1,8 +1,6 @@
 package clustering;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -33,6 +31,19 @@ public class DataReader {
         }
         CSVFile.close();
         initialise();
+    }
+    
+    public void writeFile(String fileName) throws IOException {
+        BufferedWriter outputFile = new BufferedWriter(new FileWriter(fileName));
+        FileWriter writer = new FileWriter(fileName);
+        String outputLine = "";
+        for(ArrayList<String> dataRow : store) {
+            for(String value : dataRow) {
+                outputLine = outputLine + value + ", "; 
+            }
+            outputLine = outputLine.trim() + "/n";
+            writer.write(outputLine);
+        }
     }
     
     private void initialise() {
