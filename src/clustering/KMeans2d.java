@@ -97,7 +97,7 @@ public class KMeans2d {
                 }
             }
         }
-        
+        System.out.println("Classification after inital runthrough");
         printResultTable();
         
         // Keep calculating new centroids until they stop changing.
@@ -140,6 +140,9 @@ public class KMeans2d {
                 }
             }
         }
+        System.out.println("_______________________________________");
+        System.out.println("Final classification");
+        printResultTable();
         
         Iterator resultIt = resultTable.iterator();
         ArrayList<Double> tempRow;
@@ -154,6 +157,8 @@ public class KMeans2d {
         return resultData;
         
     }
+    
+    
     
     private void initialiseCentroids() {
         // Random Selection
