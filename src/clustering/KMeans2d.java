@@ -13,6 +13,8 @@ public class KMeans2d {
     private static ArrayList<Centroid> centroids = new ArrayList<>();
     private ArrayList<ArrayList> resultTable = new ArrayList<>();
     
+    private ToStringHelper help = new ToStringHelper();
+    
     public KMeans2d(DataReader dataReader, int clusterNo) {
         this.dataReader = dataReader;
         this.clusterNo = clusterNo;
@@ -22,31 +24,39 @@ public class KMeans2d {
         DataReader resultData = new DataReader();
         initialiseCentroids();
         
-        double minDist = 100000000000.0;
+        double minDist = 100000000;
         ArrayList<Double> currentRow;
-        ArrayList<Double> outputRow = new ArrayList<Double>();
+        ArrayList<Double> outputRow = new ArrayList<>();
         double currentDistance;
         Double clusterName = 99.9;
         boolean finished = false;
         
         
         for(int i = 0; i < dataReader.getNoRows(); i++){
+            // Clear output row
+            outputRow = new ArrayList<>();
             currentRow = dataReader.geRowAsDoubles(i);
             // Calculate centroid with minimum distance.
+            minDist = 100000000;
             for(int j = 0; j < clusterNo; j++) {
-                currentDistance = calcDist(currentRow, centroids.get(j));
+                Centroid currentCentroid = centroids.get(j);
+                currentDistance = calcDist(currentRow, currentCentroid);
+                String centroidString = "("+currentCentroid.getX()+", "+currentCentroid.getY()+")";
+                System.out.print("Distance between "+j+" at coords "+centroidString+" and row "+i+" = "+currentDistance);
                 if(currentDistance < minDist){
                     minDist = currentDistance;
                     clusterName = Double.valueOf(j);
-                }
+                    System.out.println(" moving to cluster "+j);
+                } else System.out.println();
             }
             // Create ouput row.
-            for(Double value : currentRow) {
+            for(Double value : currentRow) {    
                 outputRow.add(value);
             }
             // Add it to the result table with the new classification.
             outputRow.add(clusterName);
             resultTable.add(outputRow);
+            System.out.println("Output row no. "+i+" added to result table "+help.toString(outputRow));
             // Calculate new centroids.
             for(int j = 0; j < clusterNo; j++) {
                 double totalX = 0;
@@ -96,7 +106,7 @@ public class KMeans2d {
             for(int i = 0; i < resultTable.size(); i++)
             {
                 ArrayList<Double> tempRow = resultTable.get(i);
-                minDist = 10000;
+                minDist = 100000000;
                 for(int j = 0; j < clusterNo; j++)
                 {
                     currentDistance = calcDist(tempRow, centroids.get(j));
