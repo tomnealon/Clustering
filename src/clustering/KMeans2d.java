@@ -20,6 +20,13 @@ public class KMeans2d {
         this.clusterNo = clusterNo;
     }
     
+    public void printResultTable() {
+        for(ArrayList<Double> row : resultTable) {
+            String rowString = help.toString(row);
+            System.out.println(rowString);
+        }
+    }
+    
     public DataReader generateClusters() {
         DataReader resultData = new DataReader();
         initialiseCentroids();
@@ -59,6 +66,7 @@ public class KMeans2d {
             System.out.println("Output row no. "+i+" added to result table "+help.toString(outputRow));
             // Calculate new centroids.
             for(int j = 0; j < clusterNo; j++) {
+                Centroid currentCentroid = centroids.get(j);
                 System.out.println("Recalculating for Centroid "+j);
                 double totalX = 0;
                 double totalY = 0;
@@ -74,18 +82,23 @@ public class KMeans2d {
                         totalX = totalX + (Double) resultTable.get(k).get(0);
                         totalY = totalY + (Double) resultTable.get(k).get(1);
                         clusterPop++;
-                        System.out.println("Result table entry "+k+" is in centroid "+intValue+" Pop now "+clusterPop);
+                        //System.out.println("Result table entry "+k+" is in centroid "+intValue+" Pop now "+clusterPop);
                     }
                 }
                 // Re-calculate the centroid for each class based on its running
                 // population.
                 if(clusterPop > 0){
-                    centroids.get(j).setX(totalX / clusterPop);
-                    centroids.get(j).setY(totalY / clusterPop);
-                    System.out.println("Centroid "+j+" moved to ("+(totalX / clusterPop)+", "+(totalY / clusterPop)+")");
+                    String oldStringCentroid = "("+currentCentroid.getX()+", "+currentCentroid.getY()+")";
+                    Centroid oldCentroid = new Centroid(currentCentroid.getX(), currentCentroid.getY());
+                    currentCentroid.setX(totalX / clusterPop);
+                    currentCentroid.setY(totalY / clusterPop);
+                    //System.out.println("Centroid "+j+" moved from "+oldStringCentroid+" to ("+currentCentroid.getX()+", "+currentCentroid.getY()+")");
+                    System.out.println("Centroid "+j+" moved "+calcMove(oldCentroid, currentCentroid));
                 }
             }
         }
+        
+        printResultTable();
         
         // Keep calculating new centroids until they stop changing.
         while(!finished) {            
@@ -154,9 +167,13 @@ public class KMeans2d {
          
     }
     
-    private static double calcDist(ArrayList<Double> row, Centroid centroid)
+    private double calcDist(ArrayList<Double> row, Centroid centroid)
     {
         return Math.sqrt(Math.pow((centroid.getY() - row.get(1)), 2) + Math.pow((centroid.getX() - row.get(0)), 2));
+    }
+    
+    private double calcMove(Centroid oldCentroid, Centroid newCentroid) {
+        return Math.sqrt(Math.pow((newCentroid.getY() - oldCentroid.getY()), 2) + Math.pow((newCentroid.getX() - oldCentroid.getX()), 2));
     }
     
     private void labelRow(int label) {
