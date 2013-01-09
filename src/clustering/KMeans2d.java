@@ -15,6 +15,7 @@ public class KMeans2d {
     private int clusterNo;
     private static ArrayList<Centroid> centroids = new ArrayList<>();
     private ArrayList<ArrayList> resultTable = new ArrayList<>();
+    private DataPlotter dataPlotter = new DataPlotter();
     
     private ToStringHelper help = new ToStringHelper();
     
@@ -100,8 +101,8 @@ public class KMeans2d {
                 }
             }
         }
-        System.out.println("Classification after inital runthrough");
-        printResultTable();
+//        System.out.println("Classification after inital runthrough");
+//        printResultTable();
         
         // Keep calculating new centroids until they stop changing.
         while(!finished) {            
@@ -146,6 +147,7 @@ public class KMeans2d {
         System.out.println("_______________________________________");
         System.out.println("Final classification");
         printResultTable();
+        dataPlotter.plotScatter(resultTable);
         
         Iterator resultIt = resultTable.iterator();
         ArrayList<Double> tempRow;
