@@ -147,7 +147,7 @@ public class KMeans2d {
         System.out.println("_______________________________________");
         System.out.println("Final classification");
         printResultTable();
-        dataPlotter.plotScatter(resultTable);
+        dataPlotter.plotScatter(resultTable, clusterNo);
         
         Iterator resultIt = resultTable.iterator();
         ArrayList<Double> tempRow;
