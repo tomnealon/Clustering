@@ -16,11 +16,23 @@ import org.math.plot.Plot2DPanel;
  */
 public class DataPlotter {
     private ArrayList<ArrayList> resultTable = new ArrayList<>();
-//    private Color[] colourArray = {
-//        Color.BLACK,
-//        Color.BLUE,
-//        Color.RED
-//    };
+    private Color[] colourArray = {
+        Color.BLUE,
+        Color.RED, 
+        Color.GREEN, 
+        Color.YELLOW, 
+        Color.ORANGE, 
+        Color.PINK, 
+        Color.CYAN, 
+        Color.MAGENTA,
+        Color.GRAY,
+        Color.DARK_GRAY,
+        Color.BLACK,
+        Color.LIGHT_GRAY
+    };
+    private int currentColour = 0;
+    
+    
     
     private JFrame frame = new JFrame("Cluster Result");
     private double[] min = {450000, 450000};
@@ -76,7 +88,17 @@ public class DataPlotter {
     
     private void plotColour(String name, double[][] doubleDataArray) {
         //plot.addPlot("SCATTER", "x", colour, doubleDataArray);
-        plot.addScatterPlot(name, doubleDataArray);
+        plot.addScatterPlot(name, getColour(), doubleDataArray);
+    }
+    
+    private Color getColour() {
+        Color newColour = colourArray[currentColour];
+        if(currentColour == 11) {
+            currentColour = 0;
+        } else {
+            currentColour++;
+        }
+        return newColour;
     }
     
     

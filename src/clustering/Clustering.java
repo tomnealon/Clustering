@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package clustering;
 
 import java.io.IOException;
@@ -21,7 +17,7 @@ public class Clustering {
     
     public static void launch() throws IOException {
         DataReader data = new DataReader("./data_sources/s1.csv");
-        KMeans2d kmeans = new KMeans2d(data, 6);
+        KMeans2d kmeans = new KMeans2d(data, 12);
         kmeans.generateClusters("newFile.csv");
     }
 }
