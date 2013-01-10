@@ -27,7 +27,7 @@ public class DataPlotter {
         Color.MAGENTA,
         Color.GRAY,
         Color.DARK_GRAY,
-        Color.BLACK,
+        new Color(120, 10, 128),
         Color.LIGHT_GRAY
     };
     private int currentColour = 0;
@@ -38,18 +38,12 @@ public class DataPlotter {
     private double[] min = {450000, 450000};
     private double[] max = {800000, 800000};
     private String[] emptyArrayString = {""};
-    //private Plot2DPanel plot = new Plot2DPanel(min, max, emptyArrayString, emptyArrayString);
     private Plot2DPanel plot = new Plot2DPanel();
     
-    public void plotScatter(ArrayList<ArrayList> dataTable, int clusters) {
-//        Iterator tableIt = dataTable.iterator();
-//        while(tableIt.hasNext()) {
-//            ArrayList<Double> dataRow = (ArrayList<Double>) tableIt.next();
-//            double[][] point = {{dataRow.get(0),dataRow.get(1)}};
-//            plot.addPlot("SCATTER", "x", colourArray[(dataRow.get(2)).intValue()], point);
-//        }
+    public void plotScatter(ArrayList<ArrayList> dataTable, int clusters, ArrayList<Centroid> centroids) {
         for(int i = 0; i < clusters; i++) {
-            plotColour("Cluster "+i, sortData(i, dataTable));
+            Centroid currentCentroid = centroids.get(i);
+            plotColour("Cluster "+i, sortData(i, dataTable), currentCentroid);
         }
         
         frame.setContentPane(plot);
@@ -86,9 +80,11 @@ public class DataPlotter {
         return output;
     }
     
-    private void plotColour(String name, double[][] doubleDataArray) {
-        //plot.addPlot("SCATTER", "x", colour, doubleDataArray);
-        plot.addScatterPlot(name, getColour(), doubleDataArray);
+    private void plotColour(String name, double[][] doubleDataArray, Centroid centroid) {
+        double[][] centroidCoords = {{centroid.getX(),centroid.getY()}};
+        Color clusterColour = getColour();
+        plot.addScatterPlot(name, clusterColour, doubleDataArray);
+        plot.addPlot("SCATTER", "X", Color.BLACK, centroidCoords);
     }
     
     private Color getColour() {

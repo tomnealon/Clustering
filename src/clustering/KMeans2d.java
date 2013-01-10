@@ -52,13 +52,13 @@ public class KMeans2d {
             for(int j = 0; j < clusterNo; j++) {
                 Centroid currentCentroid = centroids.get(j);
                 currentDistance = calcDist(currentRow, currentCentroid);
-                String centroidString = "("+currentCentroid.getX()+", "+currentCentroid.getY()+")";
-                System.out.print("Distance between "+j+" at coords "+centroidString+" and row "+i+" = "+currentDistance);
-                if(currentDistance < minDist){
+//                String centroidString = "("+currentCentroid.getX()+", "+currentCentroid.getY()+")";
+//                System.out.print("Distance between "+j+" at coords "+centroidString+" and row "+i+" = "+currentDistance);
+                if(currentDistance < minDist) {
                     minDist = currentDistance;
                     clusterName = Double.valueOf(j);
-                    System.out.println(" moving to cluster "+j);
-                } else System.out.println();
+//                    System.out.println(" moving to cluster "+j);
+                } //else System.out.println();
             }
             // Create ouput row.
             for(Double value : currentRow) {    
@@ -67,11 +67,11 @@ public class KMeans2d {
             // Add it to the result table with the new classification.
             outputRow.add(clusterName);
             resultTable.add(outputRow);
-            System.out.println("Output row no. "+i+" added to result table "+help.toString(outputRow));
+//            System.out.println("Output row no. "+i+" added to result table "+help.toString(outputRow));
             // Calculate new centroids.
             for(int j = 0; j < clusterNo; j++) {
                 Centroid currentCentroid = centroids.get(j);
-                System.out.println("Recalculating for Centroid "+j);
+//                System.out.println("Recalculating for Centroid "+j);
                 double totalX = 0;
                 double totalY = 0;
                 int clusterPop = 0;
@@ -144,10 +144,11 @@ public class KMeans2d {
                 }
             }
         }
-        System.out.println("_______________________________________");
-        System.out.println("Final classification");
-        printResultTable();
-        dataPlotter.plotScatter(resultTable, clusterNo);
+//        System.out.println("_______________________________________");
+//        System.out.println("Final classification");
+//        printResultTable();
+        
+
         
         Iterator resultIt = resultTable.iterator();
         ArrayList<Double> tempRow;
@@ -164,6 +165,16 @@ public class KMeans2d {
         } catch (IOException ex) {
             Logger.getLogger(KMeans2d.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+//        Centroid[] centroidsArr = Centroid[clusterNo];
+//        Iterator centroidsIt = centroids.iterator();
+//        while(centroidsIt.hasNext()) {
+//            
+//        }
+//        
+//        
+//        Centroid[] centroidsArr = (Centroid[]) centroids.toArray();
+        dataPlotter.plotScatter(resultTable, clusterNo, centroids);
         
         return resultData;
         
