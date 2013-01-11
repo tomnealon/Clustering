@@ -35,9 +35,9 @@ public class DataPlotter {
     
     
     private JFrame frame = new JFrame("Cluster Result");
-    private double[] min = {450000, 450000};
-    private double[] max = {800000, 800000};
-    private String[] emptyArrayString = {""};
+//    private double[] min = {450000, 450000};
+//    private double[] max = {800000, 800000};
+//    private String[] emptyArrayString = {""};
     private Plot2DPanel plot = new Plot2DPanel();
     
     public void plotScatter(ArrayList<ArrayList> dataTable, int clusters, ArrayList<Centroid> centroids) {
@@ -48,6 +48,7 @@ public class DataPlotter {
         
         frame.setContentPane(plot);
         frame.setVisible(true);
+        frame.setExtendedState( frame.getExtendedState()|JFrame.MAXIMIZED_BOTH );
     } 
     
     private double[][] sortData(int cluster, ArrayList<ArrayList> dataTable) {
