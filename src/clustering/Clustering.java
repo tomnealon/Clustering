@@ -17,7 +17,7 @@ public class Clustering {
     
     public static void launch() throws IOException {
         DataReader data = new DataReader("./data_sources/s1.csv");
-        KMeans2d kmeans = new KMeans2d(data, 15);
+        KMeans2d kmeans = new KMeans2d(data, 14);
         kmeans.generateClusters("newFile.csv");
     }
 }

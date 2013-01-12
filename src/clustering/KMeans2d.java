@@ -125,8 +125,7 @@ public class KMeans2d {
                 }
             }
             finished = true;
-            for(int i = 0; i < resultTable.size(); i++)
-            {
+            for(int i = 0; i < resultTable.size(); i++) {
                 ArrayList<Double> tempRow = resultTable.get(i);
                 minDist = 100000000;
                 for(int j = 0; j < clusterNo; j++)
