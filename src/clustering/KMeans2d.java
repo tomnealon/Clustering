@@ -42,6 +42,8 @@ public class KMeans2d {
         Double clusterName = 99.9;
         boolean finished = false;
         
+        ArrayList<Centroid> movingCentroids = new ArrayList<>();
+        movingCentroids = (ArrayList<Centroid>) centroids.clone();
         
         for(int i = 0; i < dataReader.getNoRows(); i++){
             // Clear output row
